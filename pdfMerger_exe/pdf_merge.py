@@ -13,20 +13,23 @@ if __name__=='__main__':
             folder_path = os.path.join(*path_list)
             
             if not os.path.exists(folder_path):
-                print("경로를 읽을 수 없습니다. 폴더 경로를 다시 확인해주세요.")
-                os.system('cls')
+                print("경로를 읽을 수 없습니다. 폴더 경로를 다시 확인해주세요.\n")
                 continue
             
         else:
             merger = PdfFileMerger()
 
             files = []
-            for f in glob(folder_path + '/*.pdf'):
+            for f in glob(path + '/*.pdf'):
                 files.append(f)
+            
+            if len(files) <= 1:
+                print("병합할 PDF 파일은 1개 이상이여야 합니다.\n")
+                continue
             files.sort()
 
+            print("[병합한 PDF 파일 목록]")
             for f in files:
-                print("[병합한 PDF 파일 목록]")
                 print(f)
                 merger.append(f)
 
@@ -35,7 +38,9 @@ if __name__=='__main__':
             print("병합 완료!")
             flag = input("프로그램을 종료하시겠습니까? [y/n] : ")
             if flag == 'y': os.exit()
-            else: continue
+            else:
+                os.system('cls') 
+                continue
 
 
 # pyinstaller --icon=pdfMerger.ico --onefile pdf_merge.py
